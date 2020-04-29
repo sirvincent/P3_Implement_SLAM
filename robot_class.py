@@ -78,8 +78,6 @@ class robot:
 
         measurements = []
 
-        ## TODO: iterate through all of the landmarks in a world
-
         ## TODO: For each landmark
         ## 1. compute dx and dy, the distances between the robot and the landmark
         ## 2. account for measurement noise by *adding* a noise component to dx and dy
@@ -91,25 +89,15 @@ class robot:
         ##    as list.append([index, dx, dy]), this format is important for data creation done later
         for idx, landmark in enumerate(self.landmarks):
             # to incorporate direction no abs and right handed up right grid makes the calculations as follows:
-            # TODO: decide to use direction knowledge or absolute value (distance is a scalar quantity
-            # dx = landmark[0] - self.x
-            # dy = self.y - landmark[1]
-
-            dx = abs(self.x - landmark[0])
-            dy = abs(self.y - landmark[1])
+            # TODO: distance is a scalar quantity, but direction is wanted I think
+            dx = landmark[0] - self.x
+            dy = self.y - landmark[1]
 
             dx += self.rand() * self.measurement_noise
             dy += self.rand() * self.measurement_noise
 
-            if dx < 0:
-                dx = 0
-            if dy < 0:
-                dy = 0
-
-            if dx > self.measurement_range or dy > self.measurement_range:
-                continue
-
-            measurements.append([idx, dx, dy])
+            if abs(dx) <= self.measurement_range and abs(dy) <= self.measurement_range:
+                measurements.append([idx, dx, dy])
 
         ## TODO: return the final, complete list of measurements
         return measurements
