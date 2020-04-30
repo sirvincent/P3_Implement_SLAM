@@ -88,10 +88,8 @@ class robot:
         ##    then we cannot record them; if they do fall in the range, then add them to the measurements list
         ##    as list.append([index, dx, dy]), this format is important for data creation done later
         for idx, landmark in enumerate(self.landmarks):
-            # to incorporate direction no abs and right handed up right grid makes the calculations as follows:
-            # TODO: distance is a scalar quantity, but direction is wanted I think
             dx = landmark[0] - self.x
-            dy = self.y - landmark[1]
+            dy = landmark[1] - self.y
 
             dx += self.rand() * self.measurement_noise
             dy += self.rand() * self.measurement_noise
